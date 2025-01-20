@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 
    const Page = ()=> {
   return (
-    <div className="flex items-center h-screen justify-center mr-4">
+    <div className=" flex items-center h-screen justify-center mr-4">
       <motion.div
         initial={{ opacity: 0, x: -100 }} 
         animate={{ opacity: 1, x: 0 }}
