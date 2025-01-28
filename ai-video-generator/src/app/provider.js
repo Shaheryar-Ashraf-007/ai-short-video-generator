@@ -1,23 +1,21 @@
 "use client";
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { eq } from 'drizzle-orm';
 import { db } from './config/db';
 import { Users } from './config/schema';
-import { useState } from 'react';
 
 const Provider = ({ children }) => {
-  const [isClient, setIsClient] = useState(false)
-
+  const [isClient, setIsClient] = useState(false);
   const { user } = useUser();
 
   useEffect(() => {
-    setIsClient(true)
+    setIsClient(true);
 
-    if (user) {
-      isNewUser();
-    }
-  }, [user]);
+    user&&isNewUser()
+    
+    
+  },[user]);
 
   const isNewUser = async () => {
     try {
@@ -36,8 +34,10 @@ const Provider = ({ children }) => {
       if (result.length === 0) {
         const { fullName, imageUrl } = user;
 
+        // Debugging: Check the entire user object
+        console.log("User Object:", user);
+
         if (!fullName) {
-          console.error("Cannot insert user: fullName is required");
           return;
         }
 
@@ -55,10 +55,9 @@ const Provider = ({ children }) => {
   };
 
   return (
-
-    <h1>{isClient ? children : 'Prerendered'}</h1>
-
-    
+    <div>
+      {isClient ? children : 'Prerendered'}
+    </div>
   );
 };
 
